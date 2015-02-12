@@ -1,0 +1,7 @@
+/extra/**
+/target/**
+/.classpath
+/.project
+/*.zip
+/*.sha1
+/*.xml
