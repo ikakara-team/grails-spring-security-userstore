@@ -10,7 +10,7 @@ database and smtp server.  You also get a nice dashboard for metrics/reporting.
 Installation:
 --------------
 
-1. Sign-up w/ https://www.userstore.io/signed-up
+1. Sign-up w/ https://www.userstore.io/sign-up
   * Be sure to verify your email
 2. Create App - https://www.userstore.io/welcome
 3. UserStore Dashboard
@@ -19,8 +19,7 @@ Installation:
   * Configure Mail Settings:
     * Enter SMTP settings
     * Be sure to enter "From Email" and "From Name" for each email type
-
-grails-app/conf/BuildConfig.groovy:
+4. grails-app/conf/BuildConfig.groovy:
 ```
   plugins {
 ...
