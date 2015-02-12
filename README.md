@@ -11,14 +11,14 @@ Installation:
 --------------
 
 1. Sign-up w/ https://www.userstore.io/signed-up
-** Be sure to verify your email
+  * Be sure to verify your email
 2. Create App - https://www.userstore.io/welcome
 3. UserStore Dashboard
-* Configure Widget:
-** Enter allowed hosts, such as localhost:8080, hocalhost:8443
-* Configure Mail Settings:
-** Enter SMTP settings
-** Be sure to enter "From Email" and "From Name" for each email type
+  * Configure Widget:
+    * Enter allowed hosts, such as localhost:8080, hocalhost:8443
+  * Configure Mail Settings:
+    * Enter SMTP settings
+    * Be sure to enter "From Email" and "From Name" for each email type
 
 grails-app/conf/BuildConfig.groovy:
 ```
@@ -32,7 +32,9 @@ grails-app/conf/BuildConfig.groovy:
 
 Initialization & Configuration:
 --------------
-grails s2-init-userstore
+```
+>grails s2-init-userstore
+```
 
 Writes to grails-app/conf/Config.groovy:
 ```
@@ -68,11 +70,11 @@ grails.plugin.springsecurity.secureChannel.definition = [
 ```
 
 Copies files to grails-app/views/login/:
-grails-app/views/login/denied.gsp
-grails-app/views/login/auth.gsp
-grails-app/views/login/forgot_password.gsp
-grails-app/views/login/reset_password.gsp
-grails-app/views/login/sign_up.gsp
+* grails-app/views/login/denied.gsp
+* grails-app/views/login/auth.gsp
+* grails-app/views/login/forgot_password.gsp
+* grails-app/views/login/reset_password.gsp
+* grails-app/views/login/sign_up.gsp
 
 These files are "templates"; you should customize them to suit yours needs.
 
@@ -91,4 +93,3 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 0.1 - initial checkin
-
