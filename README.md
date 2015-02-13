@@ -74,6 +74,8 @@ Copies files to grails-app/views/login/:
 * grails-app/views/login/forgot_password.gsp
 * grails-app/views/login/reset_password.gsp
 * grails-app/views/login/sign_up.gsp
+* grails-app/views/login/verify_success.gsp
+* grails-app/views/login/verify_fail.gsp
 
 These files are "templates"; you should customize them to suit yours needs.
 

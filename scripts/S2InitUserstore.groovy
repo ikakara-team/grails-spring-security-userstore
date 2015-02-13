@@ -11,7 +11,7 @@ appGrailsAppDir = "$basedir/grails-app"
 USAGE = """
 	Usage: grails s2-init-userstore\n\
 
-  Updates grails-app/conf/Config.groovy for the Spring Security Userstore plugin
+    Updates grails-app/conf/Config.groovy for the Spring Security Userstore plugin
 
 	Example: grails s2-init-userstore
 """
@@ -52,6 +52,8 @@ private void copyFiles() {
   copyFile "$pluginViewsDir/login/forgot_password.gsp", "$appGrailsAppDir/views/login/forgot_password.gsp"
   copyFile "$pluginViewsDir/login/reset_password.gsp", "$appGrailsAppDir/views/login/reset_password.gsp"
   copyFile "$pluginViewsDir/login/sign_up.gsp", "$appGrailsAppDir/views/login/sign_up.gsp"
+  copyFile "$pluginViewsDir/login/verify_success.gsp", "$appGrailsAppDir/views/login/verify_success.gsp"
+  copyFile "$pluginViewsDir/login/verify_fail.gsp", "$appGrailsAppDir/views/login/verify_fail.gsp"
 }
 
 okToWrite = { String dest ->

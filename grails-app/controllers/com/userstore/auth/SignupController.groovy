@@ -32,7 +32,24 @@ class SignupController {
   def userDetailsService
 
   def verify() {
-    render "To be done by developer!!!"
+    def code = params.code
+
+    if(code) {
+      UserstoreDetailsService userstoreDetailsService = ((UserstoreDetailsService)userDetailsService)
+
+      def user
+
+      def resp = userstoreDetailsService.verifyCode(code)
+      if(resp?.id) {
+        user = userstoreDetailsService.getUser(resp.id)
+        if(user) {
+          render view: "/login/verify_success", model: [user: user]
+          return
+        }
+      }
+    }
+
+    render view: "/login/verify_fail"
   }
 
   def callback() {
@@ -63,9 +80,10 @@ class SignupController {
       def authorities = uud?.authorities // get default authorities
 
       if(conf.userstore.initRoleOnSignup) {
-        UserstoreDetailsService userstoreDetailsService = ((UserstoreDetailsService)userDetailsService)
+        // initialize authorities
+        authorities = conf.userstore.initRoleOnSignup.split(',').collect { new GrantedAuthorityImpl(it) }
 
-        authorities = [new GrantedAuthorityImpl(conf.userstore.initRoleOnSignup)]
+        UserstoreDetailsService userstoreDetailsService = ((UserstoreDetailsService)userDetailsService)
         def resp = userstoreDetailsService.updateRoles(uud.id, conf.userstore.initRoleOnSignup)
 
         //println "RESPONSE: " + resp

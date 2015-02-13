@@ -124,4 +124,44 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
 
     return response?.data
   }
+
+  public def getUser(String uid) {
+    def response = null;
+
+    def conf = SpringSecurityUtils.securityConfig
+    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey);
+
+    try { // expect an exception from a 404 response:
+      response = userClient.get(path: uid,
+        headers: ["User-Agent": "grails-spring-security-userstore"])
+
+      log.debug "getUser success: ${response?.getStatusLine()} ${response?.getAllHeaders()}"
+
+    } catch( ex ) { // The exception is used for flow control but has access to the response as well:
+      log.fatal "${uid} ${ex.getMessage()}";
+    }
+
+    return response?.data
+  }
+
+  public def verifyCode(String code) {
+    def response = null;
+
+    def conf = SpringSecurityUtils.securityConfig
+    def authClient = UserstoreInstance.authClient(conf.userstore.secretKey);
+
+    try { // expect an exception from a 404 response:
+      response = authClient.post( path: 'verify',
+        headers: ["User-Agent": "grails-spring-security-userstore"],
+        requestContentType: URLENC,
+        body: ['code': code])
+
+      log.debug "verifyCode success: ${response?.getStatusLine()} ${response?.getAllHeaders()}"
+
+    } catch( ex ) { // The exception is used for flow control but has access to the response as well:
+      log.fatal "${code} ${ex.getMessage()}";
+    }
+
+    return response?.data
+  }
 }
