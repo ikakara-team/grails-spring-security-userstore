@@ -15,7 +15,7 @@ Installation:
 2. Create App - https://www.userstore.io/welcome
 3. UserStore Dashboard
   * Configure Widget:
-    * Enter allowed hosts, such as localhost:8080, hocalhost:8443
+    * Enter allowed hosts, such as localhost:8080, localhost:8443
   * Configure Mail Settings:
     * Enter SMTP settings
     * Be sure to enter "From Email" and "From Name" for each email type
@@ -31,7 +31,9 @@ Installation:
 
 Initialization & Configuration:
 --------------
+Run the following from the command line:
 ```
+>grails compile
 >grails s2-init-userstore
 ```
 
