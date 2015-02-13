@@ -18,7 +18,7 @@ Installation:
     * Enter allowed hosts, such as localhost:8080, localhost:8443
   * Configure Mail Settings:
     * Enter SMTP settings
-    * Be sure to enter "From Email" and "From Name" for each email type
+    * Be sure to enter "From Email" and "From Name" for each email template
 4. grails-app/conf/BuildConfig.groovy:
 ```
   plugins {
