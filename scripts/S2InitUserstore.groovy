@@ -1,7 +1,6 @@
 import grails.util.GrailsNameUtils
 import groovy.text.SimpleTemplateEngine
 
-includeTargets << grailsScript("Init")
 includeTargets << grailsScript('_GrailsBootstrap')
 
 overwriteAll = false

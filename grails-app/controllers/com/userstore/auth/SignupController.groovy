@@ -14,11 +14,9 @@
  */
 package com.userstore.auth
 
-import org.springframework.security.core.AuthenticationException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.userdetails.UsernameNotFoundException
-import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.savedrequest.DefaultSavedRequest
 
@@ -28,20 +26,17 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['permitAll'])
 class SignupController {
 
-  def authenticationManager;
+  def authenticationManager
   def userDetailsService
 
-  def verify() {
-    def code = params.code
+  def verify(String code) {
 
     if(code) {
-      UserstoreDetailsService userstoreDetailsService = ((UserstoreDetailsService)userDetailsService)
-
-      def user
+      UserstoreDetailsService userstoreDetailsService = userDetailsService
 
       def resp = userstoreDetailsService.verifyCode(code)
       if(resp?.id) {
-        user = userstoreDetailsService.getUser(resp.id)
+        def user = userstoreDetailsService.getUser(resp.id)
         if(user) {
           render view: "/login/verify_success", model: [user: user]
           return
@@ -52,28 +47,27 @@ class SignupController {
     render view: "/login/verify_fail"
   }
 
-  def callback() {
-    def authtoken = params.token
+  def callback(String token) {
 
     UserstoreUserDetails uud
     boolean bNoException = false
 
     def conf = SpringSecurityUtils.securityConfig
 
-    if(authtoken) {
+    if(token) {
       try {
-        UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(authtoken, authtoken, UserstoreDetailsService.NO_ROLES)
-        Authentication authenticatedUser = authenticationManager.authenticate(upat);
+        UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(token, token, UserstoreDetailsService.NO_ROLES)
+        Authentication authenticatedUser = authenticationManager.authenticate(upat)
         uud = authenticatedUser.principal
-        bNoException = true;
+        bNoException = true
 
-        //println "USER: " + authenticatedUser + " UUD: " + uud
+        //log.debug "USER: $authenticatedUser UUD: $uud"
       } catch (EmailNotVerifiedException enve) {
         uud = enve.userDetails
-        println e.getMessage()
+        log.error enve.message
       } catch (e) {
-        println e.getMessage()
-        render e.getMessage()
+        log.error e.message
+        render e.message
         return
       }
 
@@ -81,44 +75,42 @@ class SignupController {
 
       if(conf.userstore.initRoleOnSignup) {
         // initialize authorities
-        authorities = conf.userstore.initRoleOnSignup.split(',').collect { new GrantedAuthorityImpl(it) }
+        authorities = conf.userstore.initRoleOnSignup.split(',').collect { new SimpleGrantedAuthority(it) }
 
-        UserstoreDetailsService userstoreDetailsService = ((UserstoreDetailsService)userDetailsService)
+        UserstoreDetailsService userstoreDetailsService = userDetailsService
         def resp = userstoreDetailsService.updateRoles(uud.id, conf.userstore.initRoleOnSignup)
 
-        //println "RESPONSE: " + resp
+        //log.debug "RESPONSE: $resp"
       }
 
       if(bNoException && conf.userstore.autoSigninOnSignup) {
         // auto signin
         UserstoreUserDetails userDetails = new UserstoreUserDetails(
           uud.username,
-          '',                             // password
-          uud.isEnabled(),                // user.enabled,          "Sorry, your account is disabled"
-          uud.isAccountNonExpired(),      // !user.accountExpired,  "Sorry, your account is expired."
-          uud.isCredentialsNonExpired(),  // !user.passwordExpired, "Sorry, your password has expired."
-          uud.isAccountNonLocked(),       // !user.accountLocked,   "Sorry, your account is locked."
+          '',                         // password
+          uud.enabled,                // user.enabled,          "Sorry, your account is disabled"
+          uud.accountNonExpired,      // !user.accountExpired,  "Sorry, your account is expired."
+          uud.credentialsNonExpired,  // !user.passwordExpired, "Sorry, your password has expired."
+          uud.accountNonLocked,       // !user.accountLocked,   "Sorry, your account is locked."
           authorities,
           uud.id,
           uud.first_name ?: '',
           uud.last_name ?: '',
           uud.is_email_verified)
 
-        def upat = new UsernamePasswordAuthenticationToken(userDetails, authtoken, userDetails.authorities)
+        def upat = new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.authorities)
         //upat.details = authenticatedUser.details
 
-        SecurityContextHolder.getContext().setAuthentication(upat);
+        SecurityContextHolder.context.authentication = upat
       }
     }
 
     // return to original request
     DefaultSavedRequest request = session['SPRING_SECURITY_SAVED_REQUEST']
     if(request) {
-      def url = request.getRequestURL()
-      redirect url: url
+      redirect url: request.requestURL
     } else {
-      def uri = conf.successHandler.defaultTargetUrl ?: '/'
-      redirect uri: uri
+      redirect uri: conf.successHandler.defaultTargetUrl ?: '/'
     }
   }
 }
