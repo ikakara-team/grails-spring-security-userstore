@@ -1,7 +1,10 @@
-/extra/**
-/target/**
+.DS_Store
+*.log
 /.classpath
 /.project
-/*.zip
-/*.sha1
-/*.xml
+/extra
+/grails-spring-security-userstore-*.zip
+/grails-spring-security-userstore-*.zip.sha1
+/plugin.xml
+/target
+/web-app

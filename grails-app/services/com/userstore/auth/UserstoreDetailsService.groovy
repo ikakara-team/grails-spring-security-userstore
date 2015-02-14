@@ -15,16 +15,14 @@
 
 package com.userstore.auth
 
+import static groovyx.net.http.ContentType.URLENC
+
 import grails.plugin.springsecurity.SpringSecurityUtils
-import grails.plugin.springsecurity.userdetails.GrailsUser
 import grails.plugin.springsecurity.userdetails.GrailsUserDetailsService
-import org.springframework.security.core.authority.GrantedAuthorityImpl
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
-import org.springframework.security.core.AuthenticationException
-
-import groovyx.net.http.RESTClient
-import static groovyx.net.http.ContentType.*
 
 /**
  *
@@ -36,11 +34,11 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
    * one role, so we give a user with no granted roles this one which gets
    * past that restriction but doesn't grant anything.
    */
-  static public final List NO_ROLES = [new GrantedAuthorityImpl(SpringSecurityUtils.NO_ROLE)]
+  public static final List NO_ROLES = [new SimpleGrantedAuthority(SpringSecurityUtils.NO_ROLE)]
 
   UserstoreUserDetails loadUserByUsername(String username, boolean loadRoles)
   throws UsernameNotFoundException {
-    println "UserstoreDetailsService - loading user ..."
+    log.debug "UserstoreDetailsService - loading user ..."
     return loadUserByUsername(username)
   }
 
@@ -48,7 +46,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return null
   }
 
-  public UserstoreUserDetails authToken2UserDetails(String authtoken) throws UsernameNotFoundException {
+  UserstoreUserDetails authToken2UserDetails(String authtoken) throws UsernameNotFoundException {
     def authuser = authToken2AuthUser(authtoken)
     if (!authuser) {
       throw new UsernameNotFoundException('User not found', authtoken)
@@ -60,9 +58,9 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     def conf = SpringSecurityUtils.securityConfig
 
     if(user.roles) {
-      authorities = user.roles?.collect { new GrantedAuthorityImpl(it) }
+      authorities = user.roles?.collect { new SimpleGrantedAuthority(it) }
     } else if(conf.userstore.defaultRoleOnSignin) {
-      authorities = [new GrantedAuthorityImpl(conf.userstore.defaultRoleOnSignin)]
+      authorities = [new SimpleGrantedAuthority(conf.userstore.defaultRoleOnSignin)]
     } else {
       authorities = []
     }
@@ -82,84 +80,84 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
       user.last_name,
       user.is_email_verified)
 
-    return userDetails;
+    return userDetails
   }
 
-  private def authToken2AuthUser(String token) {
-    def response = null;
+  private authToken2AuthUser(String token) {
+    def response
 
     def conf = SpringSecurityUtils.securityConfig
-    def tokenClient = UserstoreInstance.tokenClient(conf.userstore.secretKey);
+    def tokenClient = UserstoreInstance.tokenClient(conf.userstore.secretKey)
 
     try { // expect an exception from a 404 response:
       response = tokenClient.get(path: token, headers: ["User-Agent": "grails-spring-security-userstore"])
 
-      log.debug "authToken2AuthUser success: ${response?.getStatusLine()} ${response?.getAllHeaders()}"
+      log.debug "authToken2AuthUser success: ${response?.statusLine} ${response?.allHeaders}"
 
     } catch( ex ) { // The exception is used for flow control but has access to the response as well:
-      log.fatal "${token} ${ex.getMessage()}";
+      log.error "${token} ${ex.message}"
     }
 
     return response?.data
   }
 
   // commad delimited roles
-  public def updateRoles(String id, String roles) {
-    def response = null;
+  def updateRoles(String id, String roles) {
+    def response
 
     def conf = SpringSecurityUtils.securityConfig
-    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey);
+    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey)
 
     try { // expect an exception from a 404 response:
       response = userClient.put(path: id,
         headers: ["User-Agent": "grails-spring-security-userstore"],
         requestContentType: URLENC,
-        body: ['roles': roles])
+        body: [roles: roles])
 
-      log.debug "updateRoles success: ${response?.getStatusLine()} ${response?.getAllHeaders()}"
+      log.debug "updateRoles success: ${response?.statusLine} ${response?.allHeaders}"
 
     } catch( ex ) { // The exception is used for flow control but has access to the response as well:
-      log.fatal "${id} ${ex.getMessage()}";
+      log.error "${id} ${ex.message}"
     }
 
     return response?.data
   }
 
-  public def getUser(String uid) {
-    def response = null;
+  def getUser(String uid) {
+    def response
 
     def conf = SpringSecurityUtils.securityConfig
-    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey);
+    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey)
 
     try { // expect an exception from a 404 response:
       response = userClient.get(path: uid,
         headers: ["User-Agent": "grails-spring-security-userstore"])
 
-      log.debug "getUser success: ${response?.getStatusLine()} ${response?.getAllHeaders()}"
+      log.debug "getUser success: ${response?.statusLine} ${response?.allHeaders}"
 
     } catch( ex ) { // The exception is used for flow control but has access to the response as well:
-      log.fatal "${uid} ${ex.getMessage()}";
+      log.error "${uid} ${ex.message}"
     }
 
     return response?.data
   }
 
-  public def verifyCode(String code) {
-    def response = null;
+  def verifyCode(String code) {
+    def response
 
     def conf = SpringSecurityUtils.securityConfig
-    def authClient = UserstoreInstance.authClient(conf.userstore.secretKey);
+    def authClient = UserstoreInstance.authClient(conf.userstore.secretKey)
 
     try { // expect an exception from a 404 response:
       response = authClient.post( path: 'verify',
         headers: ["User-Agent": "grails-spring-security-userstore"],
         requestContentType: URLENC,
-        body: ['code': code])
+        body: [code: code])
 
-      log.debug "verifyCode success: ${response?.getStatusLine()} ${response?.getAllHeaders()}"
+      log.debug "verifyCode success: ${response?.statusLine} ${response?.allHeaders}"
 
     } catch( ex ) { // The exception is used for flow control but has access to the response as well:
-      log.fatal "${code} ${ex.getMessage()}";
+      log.error "${code} ${ex.message}"
     }
 
     return response?.data

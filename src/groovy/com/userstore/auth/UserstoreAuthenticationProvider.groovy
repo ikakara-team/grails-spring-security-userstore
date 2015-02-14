@@ -15,29 +15,16 @@
 package com.userstore.auth
 
 import grails.plugin.springsecurity.SpringSecurityUtils
-
-import grails.plugin.springsecurity.userdetails.GormUserDetailsService
-import grails.plugin.springsecurity.userdetails.GrailsUser
+import groovy.util.logging.Log4j
 
 import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.authentication.dao.SaltSource
 import org.springframework.security.authentication.encoding.PasswordEncoder
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.springframework.security.core.userdetails.UserDetailsChecker
-import org.springframework.security.core.userdetails.UsernameNotFoundException
-
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.userdetails.UserDetails;
-
-
-import com.userstore.auth.UserstoreInstance
-import com.userstore.auth.UserstoreDetailsService
-
-import groovy.util.logging.Log4j
 
 @Log4j("LOG")
 class UserstoreAuthenticationProvider implements AuthenticationProvider {
@@ -50,10 +37,10 @@ class UserstoreAuthenticationProvider implements AuthenticationProvider {
   Authentication authenticate(Authentication auth) throws AuthenticationException {
     UsernamePasswordAuthenticationToken upat = auth
 
-    UserstoreDetailsService userstoreDetailsService = ((UserstoreDetailsService)userDetailsService)
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
     UserstoreUserDetails userDetails = userstoreDetailsService.authToken2UserDetails(upat.credentials)
 
-    log.debug "AUTH: " + upat + " CRED: " + upat.credentials + " USER: " + userDetails
+    log.debug "AUTH: $upat  CRED: $upat.credentials USER: $userDetails"
 
     preAuthenticationChecks.check userDetails
     additionalAuthenticationChecks userDetails
@@ -75,5 +62,4 @@ class UserstoreAuthenticationProvider implements AuthenticationProvider {
   boolean supports(Class<? extends Object> authenticationClass) {
     UsernamePasswordAuthenticationToken.isAssignableFrom authenticationClass
   }
-
 }

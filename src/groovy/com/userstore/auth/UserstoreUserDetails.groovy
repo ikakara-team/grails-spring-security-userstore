@@ -14,7 +14,7 @@
  */
 package com.userstore.auth
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.GrantedAuthority
 import grails.plugin.springsecurity.userdetails.GrailsUser
 
 /**
@@ -23,18 +23,17 @@ import grails.plugin.springsecurity.userdetails.GrailsUser
  */
 class UserstoreUserDetails extends GrailsUser {
 
-  final String first_name;
-  final String last_name;
-  final boolean is_email_verified;
+  final String first_name
+  final String last_name
+  final boolean is_email_verified
 
-  public UserstoreUserDetails(String username, String password, boolean enabled, boolean accountNonExpired,
+  UserstoreUserDetails(String username, String password, boolean enabled, boolean accountNonExpired,
     boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
     String id, String firstName, String lastName, Boolean emailVerified) {
 
     super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, id)
     first_name =  firstName
     last_name = lastName
-    is_email_verified = emailVerified ? emailVerified : false
+    is_email_verified = emailVerified
   }
 }
-
