@@ -40,8 +40,8 @@ Run the following from the command line:
 Writes to grails-app/conf/Config.groovy:
 ```
 // Required configuration:
-grails.plugin.springsecurity.userstore.publishableKey = "USERSTORE_SECRET_KEY"
-grails.plugin.springsecurity.userstore.secretKey = "USERSTORE_PUBLISHABLE_KEY"
+grails.plugin.springsecurity.userstore.publishableKey = "USERSTORE_PUBLISHABLE_KEY"
+grails.plugin.springsecurity.userstore.secretKey = "USERSTORE_SECRET_KEY"
 ```
 ```
 // Optional configuration:
@@ -62,6 +62,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
   '/**/js/**':                      ['permitAll'],
   '/**/css/**':                     ['permitAll'],
   '/**/images/**':                  ['permitAll'],
+  '/**/favicon.ico':                ['permitAll'],
   '/sign-up':                       ['permitAll'],
 ]
 // Use https
@@ -79,7 +80,7 @@ Copies files to grails-app/views/login/:
 * grails-app/views/login/verify_success.gsp
 * grails-app/views/login/verify_fail.gsp
 
-These files are "templates"; you should customize them to suit yours needs.
+These files are "templates"; you should customize them to suit your needs.
 
 UserStore Customization:
 -------------
