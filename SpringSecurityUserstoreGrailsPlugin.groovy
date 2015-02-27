@@ -9,7 +9,9 @@ class SpringSecurityUserstoreGrailsPlugin {
   List loadAfter = ['springSecurityCore']
   //def packaging = "binary"
   def pluginExcludes = [
-        "grails-app/controllers/com/userstore/auth/TestController.groovy"
+    "grails-app/controllers/com/userstore/auth/TestController.groovy",
+    "grails-app/i18n/*",
+    "web-app/**/*"
     //'src/docs/**',
   ]
   def title = "Spring Security Userstore Plugin"
