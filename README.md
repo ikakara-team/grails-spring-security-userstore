@@ -86,21 +86,30 @@ UserStore Customization:
 -------------
 UserStore Docs: https://www.userstore.io/docs
 
+SecurityTagLib:
+--------------
+In addition to the current [taglib functionality](http://grails-plugins.github.io/grails-spring-security-core/guide/helperClasses.html#securityTagLib), you have access to the following:
+```
+<sec:loggedInUserInfo field="first_name"/>
+<sec:loggedInUserInfo field="last_name"/>
+<sec:loggedInUserInfo field="full_name"/>
+```
+
+SpringSecurityService:
+--------------
+In addition to the current [service functionality](http://grails-plugins.github.io/grails-spring-security-core/guide/helperClasses.html#springSecurityService), you have access to the following:
+```
+springSecurityService.principal.first_name
+springSecurityService.principal.last_name
+springSecurityService.principal.full_name
+```
+
 Copyright & License:
 --------------
 Copyright 2014 Allen Arakaki.  All Rights Reserved.
 
 ```
 Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
-```
-
-SecurityTagLib:
---------------
-Use the taglib to mark up your GSPs:
-```
-<sec:loggedInUserInfo field="first_name"/>
-<sec:loggedInUserInfo field="last_name"/>
-<sec:loggedInUserInfo field="full_name"/>
 ```
 
 History:
