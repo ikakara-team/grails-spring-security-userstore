@@ -93,6 +93,7 @@ In addition to the current [taglib functionality](http://grails-plugins.github.i
 <sec:loggedInUserInfo field="first_name"/>
 <sec:loggedInUserInfo field="last_name"/>
 <sec:loggedInUserInfo field="full_name"/>
+<sec:loggedInUserInfo field="initials_name"/>
 ```
 
 SpringSecurityService:
@@ -102,6 +103,7 @@ In addition to the current [service functionality](http://grails-plugins.github.
 springSecurityService.principal.first_name
 springSecurityService.principal.last_name
 springSecurityService.principal.full_name
+springSecurityService.principal.initials_name
 ```
 
 Copyright & License:
@@ -115,6 +117,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
-0.2 - Support <sec:loggedInUserInfo field="full_name"/>
+0.3 - support <sec:loggedInUserInfo field="initials_name"/>
+0.2 - support <sec:loggedInUserInfo field="full_name"/>
 0.1 - initial checkin
 ```

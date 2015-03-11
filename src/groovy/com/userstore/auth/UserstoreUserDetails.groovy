@@ -45,4 +45,15 @@ class UserstoreUserDetails extends GrailsUser {
     fullName += last_name
     return fullName
   }
+
+  String getInitials_name() {
+    String initials = ''
+    if(first_name) {
+      initals += first_name[0]
+    }
+    if(last_name) {
+      initals += last_name[0]
+    }
+    return initials
+  }
 }
