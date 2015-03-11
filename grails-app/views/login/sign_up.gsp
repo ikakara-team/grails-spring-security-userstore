@@ -36,7 +36,7 @@
       successURL: '${request.contextPath}/sign-up-callback', // optional
       container: 'signup-container',
       options: {
-      fields: 'email,password',
+      fields: 'first_name,last_name,email,password',
       renderBootstrapClasses: true
       }
       });

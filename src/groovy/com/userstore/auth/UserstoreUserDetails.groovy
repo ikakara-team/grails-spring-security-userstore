@@ -36,4 +36,13 @@ class UserstoreUserDetails extends GrailsUser {
     last_name = lastName
     is_email_verified = emailVerified
   }
+
+  String getFull_name() {
+    String fullName = first_name
+    if(fullName) {
+      fullName += ' '
+    }
+    fullName += last_name
+    return fullName
+  }
 }
