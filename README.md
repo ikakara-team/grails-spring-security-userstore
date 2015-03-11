@@ -97,11 +97,15 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 SecurityTagLib:
 --------------
 Use the taglib to mark up your GSPs:
-* <sec:loggedInUserInfo field="first_name"/>
-* <sec:loggedInUserInfo field="last_name"/>
-* <sec:loggedInUserInfo field="full_name"/>
+```
+<sec:loggedInUserInfo field="first_name"/>
+<sec:loggedInUserInfo field="last_name"/>
+<sec:loggedInUserInfo field="full_name"/>
+```
 
 History:
 --------------
+```
 0.2 - Support <sec:loggedInUserInfo field="full_name"/>
 0.1 - initial checkin
+```
