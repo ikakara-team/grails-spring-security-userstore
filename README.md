@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.2'
+    compile ':spring-security-userstore:0.3'
 ...
   }
 ```
