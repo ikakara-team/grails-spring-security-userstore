@@ -15,7 +15,7 @@
 package com.userstore.auth
 
 import grails.plugin.springsecurity.SpringSecurityUtils
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -26,7 +26,7 @@ import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.userdetails.UserDetailsChecker
 import org.springframework.security.core.userdetails.UserDetailsService
 
-@Log4j("LOG")
+@Slf4j("LOG")
 class UserstoreAuthenticationProvider implements AuthenticationProvider {
   PasswordEncoder passwordEncoder
   SaltSource saltSource
@@ -40,7 +40,7 @@ class UserstoreAuthenticationProvider implements AuthenticationProvider {
     UserstoreDetailsService userstoreDetailsService = userDetailsService
     UserstoreUserDetails userDetails = userstoreDetailsService.authToken2UserDetails(upat.credentials)
 
-    log.debug "AUTH: $upat  CRED: $upat.credentials USER: $userDetails"
+    LOG.debug "AUTH: $upat  CRED: $upat.credentials USER: $userDetails"
 
     preAuthenticationChecks.check userDetails
     additionalAuthenticationChecks userDetails
