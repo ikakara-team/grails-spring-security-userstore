@@ -14,12 +14,17 @@
  */
 package com.userstore.auth
 
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
+
 import groovyx.net.http.RESTClient
 
 /**
  *
  * @author Allen
  */
+@Slf4j("LOG")
+@CompileStatic
 class UserstoreInstance {
   private static final String URL_USER = "https://api.userstore.io/1/users/"
   private static final String URL_TOKEN = "https://api.userstore.io/1/tokens/"

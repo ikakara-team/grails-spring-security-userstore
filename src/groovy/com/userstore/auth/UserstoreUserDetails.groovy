@@ -14,6 +14,9 @@
  */
 package com.userstore.auth
 
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
+
 import org.springframework.security.core.GrantedAuthority
 import grails.plugin.springsecurity.userdetails.GrailsUser
 
@@ -21,6 +24,8 @@ import grails.plugin.springsecurity.userdetails.GrailsUser
  *
  * @author Allen
  */
+@Slf4j("LOG")
+@CompileStatic
 class UserstoreUserDetails extends GrailsUser {
 
   final String first_name

@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.3.2'
+    compile ':spring-security-userstore:0.3.3'
 ...
   }
 ```
@@ -117,6 +117,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.3.3 - compile static
 0.3.2 - @Slf4j
 0.3.1 - fix 0.3 typo
 0.3   - support <sec:loggedInUserInfo field="initials_name"/>

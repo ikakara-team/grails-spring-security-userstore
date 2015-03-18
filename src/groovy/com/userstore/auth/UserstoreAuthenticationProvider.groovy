@@ -14,8 +14,10 @@
  */
 package com.userstore.auth
 
-import grails.plugin.springsecurity.SpringSecurityUtils
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+
+import grails.plugin.springsecurity.SpringSecurityUtils
 
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -27,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsChecker
 import org.springframework.security.core.userdetails.UserDetailsService
 
 @Slf4j("LOG")
+//@CompileStatic // can't do conf
 class UserstoreAuthenticationProvider implements AuthenticationProvider {
   PasswordEncoder passwordEncoder
   SaltSource saltSource
