@@ -36,7 +36,7 @@ class SignupController {
 
       def resp = userstoreDetailsService.verifyCode(code)
       if(resp?.id) {
-        def user = userstoreDetailsService.getUser(resp.id)
+        def user = userstoreDetailsService.getUserById(resp.id)
         if(user) {
           render view: "/login/verify_success", model: [user: user]
           return

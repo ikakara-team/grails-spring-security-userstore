@@ -29,6 +29,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
  * @author Allen
  */
 class UserstoreDetailsService implements GrailsUserDetailsService {
+
+  static transactional = false
+
   /**
    * Some Spring Security classes (e.g. RoleHierarchyVoter) expect at least
    * one role, so we give a user with no granted roles this one which gets
@@ -36,14 +39,31 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
    */
   public static final List NO_ROLES = [new SimpleGrantedAuthority(SpringSecurityUtils.NO_ROLE)]
 
-  UserstoreUserDetails loadUserByUsername(String username, boolean loadRoles)
+  UserstoreUserDetails loadUserByUsername(String username, boolean loadRoles = true)
   throws UsernameNotFoundException {
     log.debug "UserstoreDetailsService - loading user ..."
-    return loadUserByUsername(username)
+
+    def user = getUserByUsername(username)
+
+    return userStore2UserDetails(user)
   }
 
-  UserstoreUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    return null
+  UserstoreUserDetails loadUserByEmail(String email, boolean loadRoles = true)
+  throws UsernameNotFoundException {
+    log.debug "UserstoreDetailsService - loading user ..."
+
+    def user = getUserByEmail(email)
+
+    return userStore2UserDetails(user)
+  }
+
+  UserstoreUserDetails loadUserById(String id, boolean loadRoles = true)
+  throws UsernameNotFoundException {
+    log.debug "UserstoreDetailsService - loading user ..."
+
+    def user = getUserById(id)
+
+    return userStore2UserDetails(user)
   }
 
   UserstoreUserDetails authToken2UserDetails(String authtoken) throws UsernameNotFoundException {
@@ -53,34 +73,8 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     }
 
     def user = authuser?.data
-    def authorities
 
-    def conf = SpringSecurityUtils.securityConfig
-
-    if(user.roles) {
-      authorities = user.roles?.collect { new SimpleGrantedAuthority(it) }
-    } else if(conf.userstore.defaultRoleOnSignin) {
-      authorities = [new SimpleGrantedAuthority(conf.userstore.defaultRoleOnSignin)]
-    } else {
-      authorities = []
-    }
-
-    log.debug "authToken2UserDetails - user: ${user} authorities: ${authorities}"
-
-    UserstoreUserDetails userDetails = new UserstoreUserDetails(
-      user.username,
-      '',             // password
-      user.is_active, // user.enabled,          "Sorry, your account is disabled"
-      true,           // !user.accountExpired,  "Sorry, your account is expired."
-      true,           // !user.passwordExpired, "Sorry, your password has expired."
-      true,           // !user.accountLocked,   "Sorry, your account is locked."
-      authorities,
-      user.id,
-      user.first_name,
-      user.last_name,
-      user.is_email_verified)
-
-    return userDetails
+    return userStore2UserDetails(user)
   }
 
   private authToken2AuthUser(String token) {
@@ -99,6 +93,46 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     }
 
     return response?.data
+  }
+
+  private UserstoreUserDetails userStore2UserDetails(Map user, boolean loadRoles = true) throws UsernameNotFoundException {
+    if(!user) {
+      return null
+    }
+
+    def authorities
+
+    def conf = SpringSecurityUtils.securityConfig
+
+    if(loadRoles) {
+      if(user.roles) {
+        authorities = user.roles?.collect { new SimpleGrantedAuthority(it) }
+      } else if(conf.userstore.defaultRoleOnSignin) {
+        authorities = [new SimpleGrantedAuthority(conf.userstore.defaultRoleOnSignin)]
+      } else {
+        authorities = []
+      }
+
+    } else {
+      authorities = []
+    }
+
+    log.debug "userStore2UserDetails - user: ${user} authorities: ${authorities}"
+
+    UserstoreUserDetails userDetails = new UserstoreUserDetails(
+      user.username,
+      '',             // password
+      user.is_active, // user.enabled,          "Sorry, your account is disabled"
+      true,           // !user.accountExpired,  "Sorry, your account is expired."
+      true,           // !user.passwordExpired, "Sorry, your password has expired."
+      true,           // !user.accountLocked,   "Sorry, your account is locked."
+      authorities,
+      user.id,
+      user.first_name,
+      user.last_name,
+      user.is_email_verified)
+
+    return userDetails
   }
 
   // commad delimited roles
@@ -123,7 +157,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return response?.data
   }
 
-  def getUser(String uid) {
+  def getUserById(String uid) {
     def response
 
     def conf = SpringSecurityUtils.securityConfig
@@ -133,10 +167,48 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
       response = userClient.get(path: uid,
         headers: ["User-Agent": "grails-spring-security-userstore"])
 
-      log.debug "getUser success: ${response?.statusLine} ${response?.allHeaders}"
+      log.debug "getUserById success: ${response?.statusLine} ${response?.allHeaders}"
 
     } catch( ex ) { // The exception is used for flow control but has access to the response as well:
       log.error "${uid} ${ex.message}"
+    }
+
+    return response?.data
+  }
+
+  def getUserByUsername(String username) {
+    def response
+
+    def conf = SpringSecurityUtils.securityConfig
+    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey)
+
+    try { // expect an exception from a 404 response:
+      response = userClient.get(query: [username: username],
+        headers: ["User-Agent": "grails-spring-security-userstore"])
+
+      log.debug "getUserByUsername success: ${response?.statusLine} ${response?.allHeaders}"
+
+    } catch( ex ) { // The exception is used for flow control but has access to the response as well:
+      log.error "${username} ${ex.message}"
+    }
+
+    return response?.data
+  }
+
+  def getUserByEmail(String email) {
+    def response
+
+    def conf = SpringSecurityUtils.securityConfig
+    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey)
+
+    try { // expect an exception from a 404 response:
+      response = userClient.get(query: [email: email],
+        headers: ["User-Agent": "grails-spring-security-userstore"])
+
+      log.debug "getUserByEmail success: ${response?.statusLine} ${response?.allHeaders}"
+
+    } catch( ex ) { // The exception is used for flow control but has access to the response as well:
+      log.error "${email} ${ex.message}"
     }
 
     return response?.data

@@ -4,13 +4,15 @@ import grails.plugin.springsecurity.web.authentication.RequestHolderAuthenticati
 import com.userstore.auth.UserstoreAuthenticationProvider
 
 class SpringSecurityUserstoreGrailsPlugin {
-  def version = "0.3.3"
+  def version = "0.4"
   def grailsVersion = "2.0.0 > *"
   List loadAfter = ['springSecurityCore']
   //def packaging = "binary"
   def pluginExcludes = [
     "grails-app/controllers/com/userstore/auth/TestController.groovy",
     "grails-app/i18n/*",
+    "grails-app/views/error.gsp",
+    "grails-app/views/index.gsp",
     "web-app/**/*"
     //'src/docs/**',
   ]

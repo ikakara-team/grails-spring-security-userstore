@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.3.3'
+    compile ':spring-security-userstore:0.4'
 ...
   }
 ```
@@ -106,6 +106,18 @@ springSecurityService.principal.full_name
 springSecurityService.principal.initials_name
 ```
 
+UserstoreDetailsService:
+--------------
+* ```UserstoreUserDetails loadUserByUsername(String username, boolean loadRoles)```
+* ```UserstoreUserDetails loadUserByEmail(String username, boolean loadRoles)```
+* ```UserstoreUserDetails loadUserById(String username, boolean loadRoles)```
+* ```UserstoreUserDetails authToken2UserDetails(String authtoken)```
+* ```responseData updateRoles(String id, String roles)```
+* ```jsonData getUserById(String uid)```
+* ```jsonData getUserByUsername(String username)```
+* ```jsonData getUserByEmail(String email)```
+* ```responseData verifyCode(String code)```
+
 Copyright & License:
 --------------
 Copyright 2014-2015 Allen Arakaki.  All Rights Reserved.
@@ -117,6 +129,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.4   - loadUserByUsername
 0.3.3 - compile static
 0.3.2 - @Slf4j
 0.3.1 - fix 0.3 typo
