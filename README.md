@@ -109,8 +109,8 @@ springSecurityService.principal.initials_name
 UserstoreDetailsService:
 --------------
 * ```UserstoreUserDetails loadUserByUsername(String username, boolean loadRoles)```
-* ```UserstoreUserDetails loadUserByEmail(String username, boolean loadRoles)```
-* ```UserstoreUserDetails loadUserById(String username, boolean loadRoles)```
+* ```UserstoreUserDetails loadUserByEmail(String email, boolean loadRoles)```
+* ```UserstoreUserDetails loadUserById(String uid, boolean loadRoles)```
 * ```UserstoreUserDetails authToken2UserDetails(String authtoken)```
 * ```responseData updateRoles(String id, String roles)```
 * ```jsonData getUserById(String uid)```
