@@ -15,6 +15,8 @@
 
 package com.userstore.auth
 
+import groovy.transform.CompileStatic
+
 import static groovyx.net.http.ContentType.URLENC
 
 import grails.plugin.springsecurity.SpringSecurityUtils
@@ -28,6 +30,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
  *
  * @author Allen
  */
+//@CompileStatic // can't do conf
 class UserstoreDetailsService implements GrailsUserDetailsService {
 
   static transactional = false
@@ -130,6 +133,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
       user.id,
       user.first_name,
       user.last_name,
+      user.email,
       user.is_email_verified)
 
     return userDetails

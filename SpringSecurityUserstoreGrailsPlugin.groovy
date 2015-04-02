@@ -4,8 +4,8 @@ import grails.plugin.springsecurity.web.authentication.RequestHolderAuthenticati
 import com.userstore.auth.UserstoreAuthenticationProvider
 
 class SpringSecurityUserstoreGrailsPlugin {
-  def version = "0.4"
-  def grailsVersion = "2.0.0 > *"
+  def version = "0.5"
+  def grailsVersion = "2.2.0 > *"
   List loadAfter = ['springSecurityCore']
   //def packaging = "binary"
   def pluginExcludes = [
@@ -14,7 +14,6 @@ class SpringSecurityUserstoreGrailsPlugin {
     "grails-app/views/error.gsp",
     "grails-app/views/index.gsp",
     "web-app/**/*"
-    //'src/docs/**',
   ]
   def title = "Spring Security Userstore Plugin"
   def author = "Allen Arakaki"

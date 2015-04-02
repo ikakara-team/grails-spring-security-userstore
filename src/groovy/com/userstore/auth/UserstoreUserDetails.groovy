@@ -30,15 +30,17 @@ class UserstoreUserDetails extends GrailsUser {
 
   final String first_name
   final String last_name
+  final String email
   final boolean is_email_verified
 
   UserstoreUserDetails(String username, String password, boolean enabled, boolean accountNonExpired,
     boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
-    String id, String firstName, String lastName, Boolean emailVerified) {
+    String id, String firstName, String lastName, String _email, Boolean emailVerified) {
 
     super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, id)
     first_name =  firstName
     last_name = lastName
+    email = _email
     is_email_verified = emailVerified
   }
 

@@ -10,28 +10,26 @@ class TestController {
 
   @Secured(['permitAll'])
   def index() {
-    def username = springSecurityService.getPrincipal()?.username;
-    def userId = springSecurityService.getPrincipal()?.id;
-    def roles = springSecurityService.getPrincipal()?.authorities;
-
-    render "permitAll: username:${username} id:${userId} roles:${roles}"
+    render "permitAll: ${springSecurityService.principal}"
   }
 
   @Secured(['ROLE_USER'])
   def user() {
-    def username = springSecurityService.getPrincipal()?.username;
-    def userId = springSecurityService.getPrincipal()?.id;
-    def roles = springSecurityService.getPrincipal()?.authorities;
+    def username = springSecurityService.principal?.username;
+    def userId = springSecurityService.principal?.id;
+    def email = springSecurityService.principal?.email;
+    def roles = springSecurityService.principal?.authorities;
 
-    render "ROLE_USER: username:${username} id:${userId} roles:${roles}"
+    render "ROLE_USER: username:${username} id:${userId} email:${email} roles:${roles}"
   }
 
   def admin() {
-    def username = springSecurityService.getPrincipal()?.username;
-    def userId = springSecurityService.getPrincipal()?.id;
-    def roles = springSecurityService.getPrincipal()?.authorities;
+    def username = springSecurityService.principal?.username;
+    def userId = springSecurityService.principal?.id;
+    def email = springSecurityService.principal?.email;
+    def roles = springSecurityService.principal?.authorities;
 
-    render "ROLE_ADMIN: username:${username} id:${userId} roles:${roles}"
+    render "ROLE_ADMIN: username:${username} id:${userId} email:${email} roles:${roles}"
   }
 
   def username() {

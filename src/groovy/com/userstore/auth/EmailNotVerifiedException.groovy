@@ -14,6 +14,7 @@
  */
 package com.userstore.auth
 
+import groovy.transform.CompileStatic
 import groovy.transform.InheritConstructors
 
 import org.springframework.security.authentication.AccountStatusException
@@ -23,6 +24,7 @@ import org.springframework.security.authentication.AccountStatusException
  * @author Allen
  */
 @InheritConstructors
+@CompileStatic
 class EmailNotVerifiedException extends AccountStatusException {
   UserstoreUserDetails userDetails
 

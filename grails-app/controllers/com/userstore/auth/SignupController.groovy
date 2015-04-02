@@ -14,6 +14,8 @@
  */
 package com.userstore.auth
 
+import groovy.transform.CompileStatic
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -24,6 +26,7 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['permitAll'])
+//@CompileStatic // can't do conf
 class SignupController {
 
   def authenticationManager
@@ -96,6 +99,7 @@ class SignupController {
           uud.id,
           uud.first_name ?: '',
           uud.last_name ?: '',
+          uud.email ?: '',
           uud.is_email_verified)
 
         def upat = new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.authorities)

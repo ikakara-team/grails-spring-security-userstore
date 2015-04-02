@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.4'
+    compile ':spring-security-userstore:0.5'
 ...
   }
 ```
@@ -94,6 +94,7 @@ In addition to the current [taglib functionality](http://grails-plugins.github.i
 <sec:loggedInUserInfo field="last_name"/>
 <sec:loggedInUserInfo field="full_name"/>
 <sec:loggedInUserInfo field="initials_name"/>
+<sec:loggedInUserInfo field="email"/>
 ```
 
 SpringSecurityService:
@@ -104,6 +105,7 @@ springSecurityService.principal.first_name
 springSecurityService.principal.last_name
 springSecurityService.principal.full_name
 springSecurityService.principal.initials_name
+springSecurityService.principal.email
 ```
 
 UserstoreDetailsService:
@@ -118,6 +120,20 @@ UserstoreDetailsService:
 * ```jsonData getUserByEmail(String email)```
 * ```responseData verifyCode(String code)```
 
+Example Usage:
+--------------
+```
+class ExampleController {
+
+  def userDetailsService
+
+  def exampleAction(String email) {
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
+    def user = userDetailsService.getUserByEmail(email)
+  }
+}
+```
+
 Copyright & License:
 --------------
 Copyright 2014-2015 Allen Arakaki.  All Rights Reserved.
@@ -129,11 +145,9 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.5   - UserstoreUserDetails email
 0.4   - loadUserByUsername
-0.3.3 - compile static
-0.3.2 - @Slf4j
-0.3.1 - fix 0.3 typo
-0.3   - support <sec:loggedInUserInfo field="initials_name"/>
+0.3.3 - support <sec:loggedInUserInfo field="initials_name"/>
 0.2   - support <sec:loggedInUserInfo field="full_name"/>
 0.1   - initial checkin
 ```
