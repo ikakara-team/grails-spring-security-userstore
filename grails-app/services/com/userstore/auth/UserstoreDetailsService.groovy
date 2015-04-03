@@ -98,7 +98,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return response?.data
   }
 
-  private UserstoreUserDetails userStore2UserDetails(Map user, boolean loadRoles = true) throws UsernameNotFoundException {
+  private UserstoreUserDetails userStore2UserDetails(Map user, boolean loadRoles = true) {
     if(!user) {
       return null
     }
@@ -139,7 +139,8 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return userDetails
   }
 
-  // commad delimited roles
+  // https://www.userstore.io/docs/rest-api/users#update-user
+  // comma delimited roles
   def updateRoles(String id, String roles) {
     def response
 
@@ -161,6 +162,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return response?.data
   }
 
+  // https://www.userstore.io/docs/rest-api/users#get-user
   def getUserById(String uid) {
     def response
 
@@ -180,6 +182,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return response?.data
   }
 
+  // https://api.userstore.io/users?username=USERNAME
   def getUserByUsername(String username) {
     def response
 
@@ -199,6 +202,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return response?.data
   }
 
+  // https://api.userstore.io/users?email=EMAIL
   def getUserByEmail(String email) {
     def response
 
@@ -218,6 +222,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     return response?.data
   }
 
+  // https://www.userstore.io/docs/rest-api/authentication#verify-account
   def verifyCode(String code) {
     def response
 
@@ -238,4 +243,87 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
 
     return response?.data
   }
+
+  // https://www.userstore.io/docs/rest-api/authentication#confirm-password
+  Boolean confirmPassword(String uid, String password) {
+    def response
+
+    def conf = SpringSecurityUtils.securityConfig
+    def authClient = UserstoreInstance.authClient(conf.userstore.secretKey)
+
+    try { // expect an exception from a 404 response:
+      response = authClient.post( path: 'confirm',
+        headers: ["User-Agent": "grails-spring-security-userstore"],
+        requestContentType: URLENC,
+        body: [id: uid, password: password])
+
+      log.debug "confirmPassword success: ${response?.statusLine} ${response?.allHeaders}"
+
+    } catch( ex ) { // The exception is used for flow control but has access to the response as well:
+      log.error "${code} ${ex.message}"
+    }
+
+    log.debug "confirmPassword response.data: ${response?.data}"
+
+    return response?.data?.confirmed
+  }
+
+  def updatePassword(String uid, String password) {
+    return updateUser(uid, password)
+  }
+
+  //https://www.userstore.io/docs/rest-api/users#update-user
+  def updateUser(String uid, String password, String first=null, String last=null, String username=null, String email=null, boolean emailVerify=false, String verifyUrl=null) {
+    def response
+
+    def queryMap = [:]
+    def bodyMap = [:]
+
+    if(first) {
+      bodyMap['first_name'] = first
+    }
+    if(last) {
+      bodyMap['last_name'] = last
+    }
+    if(username) {
+      bodyMap['username'] = username
+    }
+    if(password) {
+      bodyMap['password'] = password
+    }
+    if(email) {
+      bodyMap['email'] = email
+      if(emailVerify) {
+        queryMap['verify_user'] = 'true'
+        if(verifyUrl) {
+          queryMap['verify_url'] = verifyUrl
+        }
+      }
+    }
+
+    if(!uid || !bodyMap) {
+      return null
+    }
+
+    log.debug("updateUser - passes the input check ...")
+
+    def conf = SpringSecurityUtils.securityConfig
+    def userClient = UserstoreInstance.userClient(conf.userstore.secretKey)
+
+    try { // expect an exception from a 404 response:
+      response = userClient.put(path: uid,
+        query: queryMap,
+        headers: ["User-Agent": "grails-spring-security-userstore"],
+        requestContentType: URLENC,
+        body: bodyMap)
+
+      log.debug "getUserById success: ${response?.statusLine} ${response?.allHeaders}"
+
+    } catch( ex ) { // The exception is used for flow control but has access to the response as well:
+      log.error "${uid} ${ex.message}"
+    }
+
+    return response?.data
+  }
+
 }

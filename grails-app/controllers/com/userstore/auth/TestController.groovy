@@ -6,7 +6,10 @@ import grails.plugin.springsecurity.annotation.Secured
 class TestController {
 
   def springSecurityService
-  def userstoreDetailsService
+  def userDetailsService
+
+  static int count_update = 0
+  static int count_confirm = 0
 
   @Secured(['permitAll'])
   def index() {
@@ -34,6 +37,34 @@ class TestController {
 
   def username() {
     def user = userstoreDetailsService.loadUserByUsername(params.id)
-    render "ROLE_ADMIN: id:${params.id} user:${user}"
+    render "username: id:${params.id} user:${user}"
   }
+
+  def update() {
+    count_update++
+
+    def userId = springSecurityService.principal?.id;
+    def email = "allen${count_update}@servicebuzz.com";
+    def password 'blahblah'
+
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
+
+    def response = userstoreDetailsService.updatePassword(userId, password)
+    //def response = userstoreDetailsService.updateUser(userId, '', "first${count_update}", "last${count_update}", "allen${count_update}", '', false, 'verifyUrl')
+    render "update(${count_update}): id:${userId} email:${email} response:${response}"
+  }
+
+  def confirm() {
+    count_confirm++
+
+    def userId = springSecurityService.principal?.id;
+    def password = 'blahblah'
+
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
+
+    def response = userstoreDetailsService.confirmPassword(userId, password)
+
+    render "update(${count_confirm}): id:${userId} pwd:${password} response:${response}"
+  }
+
 }

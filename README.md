@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.5'
+    compile ':spring-security-userstore:0.6'
 ...
   }
 ```
@@ -119,6 +119,9 @@ UserstoreDetailsService:
 * ```jsonData getUserByUsername(String username)```
 * ```jsonData getUserByEmail(String email)```
 * ```responseData verifyCode(String code)```
+* ```Boolean confirmPassword(String uid, String password)```
+* ```responseData updatePassword(String uid, String password)```
+* ```responseData updateUser(String uid, String password, String first=null, String last=null, String username=null)```
 
 Example Usage:
 --------------
@@ -145,6 +148,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.6   - confirmPassword; updatePassword; updateUser
 0.5   - UserstoreUserDetails email
 0.4   - loadUserByUsername
 0.3.3 - support <sec:loggedInUserInfo field="initials_name"/>
