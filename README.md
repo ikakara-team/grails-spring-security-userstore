@@ -122,6 +122,7 @@ UserstoreDetailsService:
 * ```Boolean confirmPassword(String uid, String password)```
 * ```responseData updatePassword(String uid, String password)```
 * ```responseData updateUser(String uid, String password, String first=null, String last=null, String username=null)```
+  * currently there's bug w/ ```, String email=null, boolean emailVerify=false, String verifyUrl=null```
 
 Example Usage:
 --------------

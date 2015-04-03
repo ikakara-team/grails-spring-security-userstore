@@ -45,12 +45,12 @@ class TestController {
 
     def userId = springSecurityService.principal?.id;
     def email = "allen${count_update}@servicebuzz.com";
-    def password 'blahblah'
+    def password = 'blahblah'
 
     UserstoreDetailsService userstoreDetailsService = userDetailsService
 
-    def response = userstoreDetailsService.updatePassword(userId, password)
-    //def response = userstoreDetailsService.updateUser(userId, '', "first${count_update}", "last${count_update}", "allen${count_update}", '', false, 'verifyUrl')
+    //def response = userstoreDetailsService.updatePassword(userId, password)
+    def response = userstoreDetailsService.updateUser(userId, '', "first${count_update}", "last${count_update}", "allen${count_update}", email, false, 'verifyUrl')
     render "update(${count_update}): id:${userId} email:${email} response:${response}"
   }
 
