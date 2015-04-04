@@ -50,7 +50,7 @@ class TestController {
     UserstoreDetailsService userstoreDetailsService = userDetailsService
 
     //def response = userstoreDetailsService.updatePassword(userId, password)
-    def response = userstoreDetailsService.updateUser(userId, '', "first${count_update}", "last${count_update}", "allen${count_update}", email, false, 'verifyUrl')
+    def response = userstoreDetailsService.updateUser(userId, '', "first${count_update}", "last${count_update}", "allen${count_update}", email, 'https://hs.org:8443/this/is/test/url')
     render "update(${count_update}): id:${userId} email:${email} response:${response}"
   }
 

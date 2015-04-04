@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.6'
+    compile ':spring-security-userstore:0.6.1'
 ...
   }
 ```
@@ -149,6 +149,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.6.1 - fix updateUser
 0.6   - confirmPassword; updatePassword; updateUser
 0.5   - UserstoreUserDetails email
 0.4   - loadUserByUsername

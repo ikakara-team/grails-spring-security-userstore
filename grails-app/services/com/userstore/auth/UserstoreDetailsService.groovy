@@ -273,7 +273,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
   }
 
   //https://www.userstore.io/docs/rest-api/users#update-user
-  def updateUser(String uid, String password, String first=null, String last=null, String username=null, String email=null, boolean emailVerify=false, String verifyUrl=null) {
+  def updateUser(String uid, String password, String first=null, String last=null, String username=null, String email=null, String verifyUrl=null) {
     def response
 
     def queryMap = [:]
@@ -293,11 +293,9 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
     }
     if(email) {
       bodyMap['email'] = email
-      if(emailVerify) {
-        queryMap['verify_user'] = 'true'
-        if(verifyUrl) {
-          queryMap['verify_url'] = verifyUrl
-        }
+      if(verifyUrl) {
+        queryMap['verify_user'] = true
+        queryMap['verify_url'] = verifyUrl
       }
     }
 
