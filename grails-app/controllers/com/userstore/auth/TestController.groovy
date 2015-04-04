@@ -44,7 +44,7 @@ class TestController {
     count_update++
 
     def userId = springSecurityService.principal?.id;
-    def email = "allen${count_update}@servicebuzz.com";
+    def email = "allen${count_update}@example.com";
     def password = 'blahblah'
 
     UserstoreDetailsService userstoreDetailsService = userDetailsService
