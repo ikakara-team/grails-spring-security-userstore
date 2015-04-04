@@ -15,6 +15,9 @@
 
 package com.userstore.auth
 
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
 import groovy.transform.CompileStatic
 
 import static groovyx.net.http.ContentType.URLENC
@@ -22,14 +25,13 @@ import static groovyx.net.http.ContentType.URLENC
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.userdetails.GrailsUserDetailsService
 
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.web.authentication.logout.LogoutHandler
 
-/**
- *
- * @author Allen
- */
 //@CompileStatic // can't do conf
 class UserstoreDetailsService implements GrailsUserDetailsService {
 
@@ -42,30 +44,36 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
    */
   public static final List NO_ROLES = [new SimpleGrantedAuthority(SpringSecurityUtils.NO_ROLE)]
 
+  List<LogoutHandler> logoutHandlers
+
+  void logout(HttpServletRequest request, HttpServletResponse response) {
+    Authentication auth = SecurityContextHolder.context.authentication
+    if (auth) {
+      logoutHandlers.each  { handler->
+        log.debug "logout: ${handler.class}"
+        handler.logout(request, response, auth)
+      }
+    }
+  }
+
   UserstoreUserDetails loadUserByUsername(String username, boolean loadRoles = true)
   throws UsernameNotFoundException {
-    log.debug "UserstoreDetailsService - loading user ..."
-
+    log.debug "loadUserByUsername - loading user ..."
     def user = getUserByUsername(username)
-
     return userStore2UserDetails(user)
   }
 
   UserstoreUserDetails loadUserByEmail(String email, boolean loadRoles = true)
   throws UsernameNotFoundException {
-    log.debug "UserstoreDetailsService - loading user ..."
-
+    log.debug "loadUserByEmail - loading user ..."
     def user = getUserByEmail(email)
-
     return userStore2UserDetails(user)
   }
 
   UserstoreUserDetails loadUserById(String id, boolean loadRoles = true)
   throws UsernameNotFoundException {
-    log.debug "UserstoreDetailsService - loading user ..."
-
+    log.debug "loadUserById - loading user ..."
     def user = getUserById(id)
-
     return userStore2UserDetails(user)
   }
 
@@ -140,8 +148,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
   }
 
   // https://www.userstore.io/docs/rest-api/users#update-user
-  // comma delimited roles
-  def updateRoles(String id, String roles) {
+  def updateRoles(String id, String roles) { // comma delimited roles
     def response
 
     def conf = SpringSecurityUtils.securityConfig
@@ -315,7 +322,7 @@ class UserstoreDetailsService implements GrailsUserDetailsService {
         requestContentType: URLENC,
         body: bodyMap)
 
-      log.debug "getUserById success: ${response?.statusLine} ${response?.allHeaders}"
+      log.debug "updateUser success: ${response?.statusLine} ${response?.allHeaders}"
 
     } catch( ex ) { // The exception is used for flow control but has access to the response as well:
       log.error "${uid} ${ex.message}"

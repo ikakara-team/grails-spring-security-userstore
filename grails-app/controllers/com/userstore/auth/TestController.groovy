@@ -67,4 +67,12 @@ class TestController {
     render "update(${count_confirm}): id:${userId} pwd:${password} response:${response}"
   }
 
+  def logout() {
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
+
+    userstoreDetailsService.logout(request, response)
+
+    redirect action: 'admin'
+  }
+
 }

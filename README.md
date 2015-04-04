@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.6.1'
+    compile ':spring-security-userstore:0.7'
 ...
   }
 ```
@@ -110,6 +110,7 @@ springSecurityService.principal.email
 
 UserstoreDetailsService:
 --------------
+* ```void logout(HttpServletRequest request, HttpServletResponse response)```
 * ```UserstoreUserDetails loadUserByUsername(String username, boolean loadRoles)```
 * ```UserstoreUserDetails loadUserByEmail(String email, boolean loadRoles)```
 * ```UserstoreUserDetails loadUserById(String uid, boolean loadRoles)```
@@ -149,8 +150,8 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
-0.6.1 - fix updateUser
-0.6   - confirmPassword; updatePassword; updateUser
+0.7   - logout
+0.6.1 - confirmPassword; updatePassword; updateUser
 0.5   - UserstoreUserDetails email
 0.4   - loadUserByUsername
 0.3.3 - support <sec:loggedInUserInfo field="initials_name"/>

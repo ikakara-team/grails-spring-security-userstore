@@ -4,7 +4,7 @@ import grails.plugin.springsecurity.web.authentication.RequestHolderAuthenticati
 import com.userstore.auth.UserstoreAuthenticationProvider
 
 class SpringSecurityUserstoreGrailsPlugin {
-  def version = "0.6.1"
+  def version = "0.7"
   def grailsVersion = "2.2.0 > *"
   List loadAfter = ['springSecurityCore']
   //def packaging = "binary"
@@ -51,7 +51,9 @@ database and smtp server.  You also get a nice dashboard for metrics/reporting.
 
     //println "secretKey:${conf.userstore.secretKey} publishableKey:${conf.userstore.publishableKey}"
 
-    userDetailsService(com.userstore.auth.UserstoreDetailsService)
+    userDetailsService(com.userstore.auth.UserstoreDetailsService) {
+      logoutHandlers = ref('logoutHandlers')
+    }
 
     // we need to override the usernameParameter and passwordParameter
     authenticationProcessingFilter(RequestHolderAuthenticationFilter) {
