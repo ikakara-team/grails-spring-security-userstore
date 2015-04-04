@@ -6,7 +6,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-<!-- Optional theme -->
+    <!-- Optional theme -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <style type='text/css' media='screen'>
       body {
@@ -27,7 +27,7 @@ def exception = session[org.springframework.security.web.WebAttributes.AUTHENTIC
 if(exception && exception instanceof com.userstore.auth.EmailNotVerifiedException) {
   flash.message = exception.getMessage()
 }
-    %>
+%>
     <div class="content">
       <g:if test='${flash.message}'>
         <div class='login_message'>${flash.message}</div>

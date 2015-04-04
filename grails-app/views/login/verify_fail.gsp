@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta name='layout' content=''/>
-    <title>Verify Fail</title>
+    <title>Verify Failed</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-<!-- Optional theme -->
+    <!-- Optional theme -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <style type='text/css' media='screen'>
       body {
@@ -21,7 +21,7 @@
   </head>
 
   <body id="signup" class="auth-page">
-    <h3>Verify Failed!</h3>
+    <h3>Verify failed, perhaps you've already been verified?</h3>
 
     <p><a href="${request.contextPath}/">Continue ...</a></p>
 
