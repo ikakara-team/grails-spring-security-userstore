@@ -24,7 +24,7 @@ Installation:
   plugins {
 ...
     compile ':spring-security-core:2.0-RC4'
-    compile ':spring-security-userstore:0.8'
+    compile ':spring-security-userstore:0.8.1'
 ...
   }
 ```
@@ -152,6 +152,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.8.1 - include I18N messages; insure account-settings authenticated 
 0.8   - updateSettings; changePassword
 0.7.1 - tweak verify pages
 0.7   - logout

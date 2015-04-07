@@ -122,6 +122,11 @@ class SignupController {
 
   // this requires a user to be authenticated
   def settings() {
+    if(!springSecurityService.isLoggedIn()) {
+      redirect uri: "/sign-in"
+      return
+    }
+
     def userId    = springSecurityService.principal?.id
 
     UserstoreDetailsService userstoreDetailsService = userDetailsService
@@ -136,6 +141,11 @@ class SignupController {
       // good request
     }.invalidToken {
       // bad request
+      return
+    }
+
+    if(!springSecurityService.isLoggedIn()) {
+      redirect uri: "/sign-in"
       return
     }
 
@@ -203,6 +213,11 @@ class SignupController {
       // good request
     }.invalidToken {
       // bad request
+      return
+    }
+
+    if(!springSecurityService.isLoggedIn()) {
+      redirect uri: "/sign-in"
       return
     }
 
