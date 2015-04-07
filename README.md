@@ -65,6 +65,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
   '/**/images/**':                  ['permitAll'],
   '/**/favicon.ico':                ['permitAll'],
   '/sign-up':                       ['permitAll'],
+  '/account-settings':              ['ROLE_USER'],
 ]
 // Use https
 grails.plugin.springsecurity.secureChannel.definition = [
