@@ -28,7 +28,9 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['permitAll'])
 //@CompileStatic // can't do conf
 class SignupController {
+  static allowedMethods = [ updateSettings: "PUT", changePassword: "POST" ]
 
+  def springSecurityService
   def authenticationManager
   def userDetailsService
 
@@ -117,4 +119,125 @@ class SignupController {
       redirect uri: conf.successHandler.defaultTargetUrl ?: '/'
     }
   }
+
+  // this requires a user to be authenticated
+  def settings() {
+    def userId    = springSecurityService.principal?.id
+
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
+    def auth = userstoreDetailsService.getUserById(userId)
+
+    render view: '/login/settings', model:[auth: auth, form: params.form]
+  }
+
+  // this requires a user to be authenticated
+  def updateSettings() {
+    withForm {
+      // good request
+    }.invalidToken {
+      // bad request
+      return
+    }
+
+    def userId    = springSecurityService.principal?.id
+
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
+
+    def password = params.password
+    def first_name = getChanged(params.first_name, params.prev_first_name)
+    def last_name = getChanged(params.last_name, params.prev_last_name)
+    def username = getChanged(params.username, params.prev_username)
+    def email = getChanged(params.email, params.prev_email)
+
+    if(password && (first_name || last_name || username || email)) {
+      def auth = userstoreDetailsService.confirmPassword(userId, password)
+      if(auth) {
+        if(username) {
+          // verify that the username not already taken
+          auth = userstoreDetailsService.getUserByUsername(username)
+          if(auth) {
+            flash.message = g.message(code: "springSecurityUserstore.account.settings.username.failed", args: [username])
+            redirect uri: "${SpringSecurityUtils.securityConfig.userstore.defaultSettingsUrl}", params:[form: 'settings']
+            return
+          }
+        }
+        if(email) {
+          // verify that the email not already taken
+          auth = userstoreDetailsService.getUserByEmail(email)
+          if(auth) {
+            flash.message = g.message(code: "springSecurityUserstore.account.settings.email.failed", args: [email])
+            redirect uri: "${SpringSecurityUtils.securityConfig.userstore.defaultSettingsUrl}", params:[form: 'settings']
+            return
+          }
+        }
+
+        auth = userstoreDetailsService.updateUser(userId, '', first_name, last_name, username, email, "${grailsApplication.config.grails.secureServerURL}/verify")
+        if(auth?.updated_at) {
+          if(email && !auth.is_email_verified) {
+            // email changed, we need to logout
+            flash.message = g.message(code: "springSecurityUserstore.account.settings.email.success")
+            userstoreDetailsService.logout(request, response)
+          } else {
+            if(!username) {
+              username = springSecurityService.principal?.username
+            }
+            springSecurityService.reauthenticate(username)
+            flash.message = g.message(code: "springSecurityUserstore.account.settings.updated", args: [auth?.updated_at])
+          }
+        } else {
+          flash.message = g.message(code: "springSecurityUserstore.account.settings.failed")
+        }
+      } else {
+        flash.message = g.message(code: "springSecurityUserstore.account.password.confirm")
+      }
+    } else {
+      flash.message = g.message(code: "springSecurityUserstore.account.settings.invalid")
+    }
+
+    redirect uri: "${SpringSecurityUtils.securityConfig.userstore.defaultSettingsUrl}", params:[form: 'settings']
+  }
+
+  // this requires a user to be authenticated
+  def changePassword() {
+    withForm {
+      // good request
+    }.invalidToken {
+      // bad request
+      return
+    }
+
+    def userId    = springSecurityService.principal?.id
+
+    UserstoreDetailsService userstoreDetailsService = userDetailsService
+
+    def password = params.password
+    def newPassword = params.newPassword
+    def confirmPassword = params.confirmPassword
+
+    if(password && newPassword && confirmPassword && (newPassword == confirmPassword)) {
+      def auth = userstoreDetailsService.confirmPassword(userId, password)
+      if(auth) {
+        auth = userstoreDetailsService.updatePassword(userId, newPassword)
+        if(auth?.updated_at) {
+          flash.message = g.message(code: "springSecurityUserstore.account.password.updated", args: [auth?.updated_at])
+        } else {
+          flash.message = g.message(code: "springSecurityUserstore.account.password.failed")
+        }
+      } else {
+        flash.message = g.message(code: "springSecurityUserstore.account.password.confirm")
+      }
+    } else {
+      flash.message = g.message(code: "springSecurityUserstore.account.password.invalid")
+    }
+
+    redirect (uri: "${SpringSecurityUtils.securityConfig.userstore.defaultSettingsUrl}", params:[form: 'password'])
+  }
+
+  protected String getChanged(String newinput, String oldinput) {
+    if(newinput == oldinput) {
+      return null
+    }
+    return newinput
+  }
+
 }

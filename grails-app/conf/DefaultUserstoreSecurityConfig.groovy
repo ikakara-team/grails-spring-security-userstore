@@ -6,5 +6,6 @@ security {
     initRoleOnSignup = "ROLE_USER"
     autoSigninOnSignup = true
     requireEmailVerifiedOnSignin = false
+    defaultSettingsUrl = "/account-settings"
   }
 }

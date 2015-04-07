@@ -53,6 +53,7 @@ private void copyFiles() {
   copyFile "$pluginViewsDir/login/sign_up.gsp", "$appGrailsAppDir/views/login/sign_up.gsp"
   copyFile "$pluginViewsDir/login/verify_success.gsp", "$appGrailsAppDir/views/login/verify_success.gsp"
   copyFile "$pluginViewsDir/login/verify_fail.gsp", "$appGrailsAppDir/views/login/verify_fail.gsp"
+  copyFile "$pluginViewsDir/login/settings.gsp", "$appGrailsAppDir/views/login/settings.gsp"
 }
 
 okToWrite = { String dest ->

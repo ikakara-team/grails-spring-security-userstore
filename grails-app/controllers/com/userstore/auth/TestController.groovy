@@ -7,6 +7,7 @@ class TestController {
 
   def springSecurityService
   def userDetailsService
+  def grailsUrlMappingsHolder
 
   static int count_update = 0
   static int count_confirm = 0
@@ -73,6 +74,11 @@ class TestController {
     userstoreDetailsService.logout(request, response)
 
     redirect action: 'admin'
+  }
+
+  @Secured(['permitAll'])
+  def urlMappings() {
+    render grailsUrlMappingsHolder.urlMappings
   }
 
 }

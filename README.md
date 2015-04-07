@@ -49,6 +49,7 @@ grails.plugin.springsecurity.userstore.defaultRoleOnSignin = "ROLE_NONE"
 grails.plugin.springsecurity.userstore.initRoleOnSignup = "ROLE_USER"
 grails.plugin.springsecurity.userstore.autoSigninOnSignup = true
 grails.plugin.springsecurity.userstore.requireEmailVerifiedOnSignin = false
+grails.plugin.springsecurity.userstore.defaultSettingsUrl = "/account-settings"
 ```
 
 Add the following Spring Security settings:
@@ -79,6 +80,7 @@ Copies files to grails-app/views/login/:
 * grails-app/views/login/sign_up.gsp
 * grails-app/views/login/verify_success.gsp
 * grails-app/views/login/verify_fail.gsp
+* grails-app/views/login/settings.gsp
 
 These files are "templates"; you should customize them to suit your needs.
 
@@ -122,8 +124,7 @@ UserstoreDetailsService:
 * ```responseData verifyCode(String code)```
 * ```Boolean confirmPassword(String uid, String password)```
 * ```responseData updatePassword(String uid, String password)```
-* ```responseData updateUser(String uid, String password, String first=null, String last=null, String username=null)```
-  * currently there's bug w/ ```, String email=null, boolean emailVerify=false, String verifyUrl=null```
+* ```responseData updateUser(String uid, String password, String first=null, String last=null, String username=null, String email=null, String verifyUrl=null)```
 
 Example Usage:
 --------------
@@ -150,6 +151,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.8   - updateSettings; changePassword
 0.7.1 - tweak verify pages
 0.7   - logout
 0.6.1 - confirmPassword; updatePassword; updateUser

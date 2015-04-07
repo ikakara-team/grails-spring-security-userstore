@@ -4,7 +4,7 @@ import grails.plugin.springsecurity.web.authentication.RequestHolderAuthenticati
 import com.userstore.auth.UserstoreAuthenticationProvider
 
 class SpringSecurityUserstoreGrailsPlugin {
-  def version = "0.7.1"
+  def version = "0.8"
   def grailsVersion = "2.2.0 > *"
   List loadAfter = ['springSecurityCore']
   //def packaging = "binary"
