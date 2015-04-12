@@ -19,19 +19,19 @@ class TestController {
 
   @Secured(['ROLE_USER'])
   def user() {
-    def username = springSecurityService.principal?.username;
-    def userId = springSecurityService.principal?.id;
-    def email = springSecurityService.principal?.email;
-    def roles = springSecurityService.principal?.authorities;
+    def username = springSecurityService.principal?.username
+    def userId = springSecurityService.principal?.id
+    def email = springSecurityService.principal?.email
+    def roles = springSecurityService.principal?.authorities
 
     render "ROLE_USER: username:${username} id:${userId} email:${email} roles:${roles}"
   }
 
   def admin() {
-    def username = springSecurityService.principal?.username;
-    def userId = springSecurityService.principal?.id;
-    def email = springSecurityService.principal?.email;
-    def roles = springSecurityService.principal?.authorities;
+    def username = springSecurityService.principal?.username
+    def userId = springSecurityService.principal?.id
+    def email = springSecurityService.principal?.email
+    def roles = springSecurityService.principal?.authorities
 
     render "ROLE_ADMIN: username:${username} id:${userId} email:${email} roles:${roles}"
   }
@@ -44,8 +44,8 @@ class TestController {
   def update() {
     count_update++
 
-    def userId = springSecurityService.principal?.id;
-    def email = "allen${count_update}@example.com";
+    def userId = springSecurityService.principal?.id
+    def email = "allen${count_update}@example.com"
     def password = 'blahblah'
 
     UserstoreDetailsService userstoreDetailsService = userDetailsService
@@ -58,7 +58,7 @@ class TestController {
   def confirm() {
     count_confirm++
 
-    def userId = springSecurityService.principal?.id;
+    def userId = springSecurityService.principal?.id
     def password = 'blahblah'
 
     UserstoreDetailsService userstoreDetailsService = userDetailsService
