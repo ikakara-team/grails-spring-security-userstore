@@ -18,7 +18,8 @@ package com.userstore.auth
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
+import grails.compiler.GrailsCompileStatic
 
 import static groovyx.net.http.ContentType.URLENC
 
@@ -32,7 +33,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.web.authentication.logout.LogoutHandler
 
-//@CompileStatic // can't do conf
+//@GrailsCompileStatic // can't do conf
 class UserstoreDetailsService implements GrailsUserDetailsService {
 
   static transactional = false

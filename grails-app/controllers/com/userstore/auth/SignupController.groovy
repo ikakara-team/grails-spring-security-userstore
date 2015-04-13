@@ -14,7 +14,8 @@
  */
 package com.userstore.auth
 
-import groovy.transform.CompileStatic
+import groovy.transform.TypeCheckingMode
+import grails.compiler.GrailsCompileStatic
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -26,7 +27,7 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['permitAll'])
-//@CompileStatic // can't do conf
+//@GrailsCompileStatic // can't do conf
 class SignupController {
   static allowedMethods = [ updateSettings: "PUT", changePassword: "POST" ]
 
