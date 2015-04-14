@@ -35,12 +35,13 @@ Installation:
 Scaling Authentication:
 --------------
 Being session-less (stateless) makes scaling web-apps easier - any request can go
-to any box (app-server), etc.  Unfortunately, authentication requires auth-state
-to be saved in a session.  Session info can be saved either on the back-end via
-memcache, etc. OR that state can be saved in cookie and transmitted by the client
-on each request.  The simple route is to use the cookie-session plugin.  Otherwise,
-install/configure memcache, etc. so that session is accessible by all the boxes
-serving app requests.
+to any box (app-server), etc.  However, authentication requires auth-state to be
+saved in a session.  Session info can be saved either on the back-end via memcache,
+etc. OR that state can be saved in a cookie and transmitted by the client on each
+request/response.  The cookie-session plugin is a simple method to insure all boxes
+have access to the client's session.  Centrally managing sessions using memcache,
+etc. requires more ops work, but maybe necessary since there's a practical limit
+to how much info can be stored/transmitted in a cookie.
 
 Initialization & Configuration:
 --------------
