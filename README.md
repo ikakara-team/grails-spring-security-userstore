@@ -23,11 +23,24 @@ Installation:
 ```
   plugins {
 ...
+    // simplifies scaling spring-security
+    compile ":cookie-session:2.0.17" // http://grails.org/plugin/cookie-session
+
     compile ':spring-security-core:2.0-RC4'
     compile ':spring-security-userstore:0.8.1'
 ...
   }
 ```
+
+Scaling Authentication:
+--------------
+Being session-less (stateless) makes scaling web-apps easier - any request can go
+to any box (app-server), etc.  Unfortunately, authentication requires auth-state
+to be saved in a session.  Session info can be saved either on the back-end via
+memcache, etc. OR that state can be saved in cookie and transmitted by the client
+on each request.  The simple route is to use the cookie-session plugin.  Otherwise,
+install/configure memcache, etc. so that session is accessible by all the boxes
+serving app requests.
 
 Initialization & Configuration:
 --------------
@@ -152,7 +165,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
-0.8.1 - include I18N messages; insure account-settings authenticated 
+0.8.1 - include I18N messages; insure account-settings authenticated
 0.8   - updateSettings; changePassword
 0.7.1 - tweak verify pages
 0.7   - logout
