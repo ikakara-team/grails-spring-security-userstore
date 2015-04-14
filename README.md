@@ -88,6 +88,10 @@ grails.plugin.springsecurity.secureChannel.definition = [
 
 // required for cookie-session plugin
 grails.plugin.springsecurity.useSessionFixationPrevention = false
+// required to enable cookie-session for spring-security
+grails.plugin.cookiesession.enabled = true
+grails.plugin.cookiesession.sessiontimeout = 3600 // one hour
+grails.plugin.cookiesession.springsecuritycompatibility = true
 ```
 
 Copies files to grails-app/views/login/:
