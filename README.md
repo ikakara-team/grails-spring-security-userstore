@@ -80,10 +80,14 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
   '/sign-up':                       ['permitAll'],
   '/account-settings':              ['ROLE_USER'],
 ]
+
 // Use https
 grails.plugin.springsecurity.secureChannel.definition = [
   '**':                   'REQUIRES_SECURE_CHANNEL',
 ]
+
+// required for cookie-session plugin
+grails.plugin.springsecurity.useSessionFixationPrevention = false
 ```
 
 Copies files to grails-app/views/login/:
