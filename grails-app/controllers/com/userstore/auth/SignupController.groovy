@@ -154,14 +154,14 @@ class SignupController {
 
     UserstoreDetailsService userstoreDetailsService = userDetailsService
 
-    def password = params.password
+    def verifyPassword = params.verifyPassword
     def first_name = getChanged(params.first_name, params.prev_first_name)
     def last_name = getChanged(params.last_name, params.prev_last_name)
     def username = getChanged(params.username, params.prev_username)
     def email = getChanged(params.email, params.prev_email)
 
-    if(password && (first_name || last_name || username || email)) {
-      def auth = userstoreDetailsService.confirmPassword(userId, password)
+    if(verifyPassword && (first_name || last_name || username || email)) {
+      def auth = userstoreDetailsService.confirmPassword(userId, verifyPassword)
       if(auth) {
         if(username) {
           // verify that the username not already taken
@@ -199,7 +199,7 @@ class SignupController {
           flash.message = g.message(code: "springSecurityUserstore.account.settings.failed")
         }
       } else {
-        flash.message = g.message(code: "springSecurityUserstore.account.password.confirm")
+        flash.message = g.message(code: "springSecurityUserstore.account.password.verify")
       }
     } else {
       flash.message = g.message(code: "springSecurityUserstore.account.settings.invalid")
@@ -226,12 +226,12 @@ class SignupController {
 
     UserstoreDetailsService userstoreDetailsService = userDetailsService
 
-    def password = params.password
-    def newPassword = params.newPassword
+    def verifyPassword = params.verifyPassword
+    def newPassword = params.password
     def confirmPassword = params.confirmPassword
 
-    if(password && newPassword && confirmPassword && (newPassword == confirmPassword)) {
-      def auth = userstoreDetailsService.confirmPassword(userId, password)
+    if(verifyPassword && newPassword && confirmPassword && (newPassword == confirmPassword)) {
+      def auth = userstoreDetailsService.confirmPassword(userId, verifyPassword)
       if(auth) {
         auth = userstoreDetailsService.updatePassword(userId, newPassword)
         if(auth?.updated_at) {
@@ -240,7 +240,7 @@ class SignupController {
           flash.message = g.message(code: "springSecurityUserstore.account.password.failed")
         }
       } else {
-        flash.message = g.message(code: "springSecurityUserstore.account.password.confirm")
+        flash.message = g.message(code: "springSecurityUserstore.account.password.verify")
       }
     } else {
       flash.message = g.message(code: "springSecurityUserstore.account.password.invalid")

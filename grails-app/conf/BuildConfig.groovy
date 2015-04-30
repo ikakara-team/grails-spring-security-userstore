@@ -17,7 +17,7 @@ grails.project.dependency.resolution = {
   dependencies {
     compile "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1" //http://mvnrepository.com/artifact/org.codehaus.groovy.modules.http-builder/http-builder
     // needed for tomcat
-    compile ("net.sf.ehcache:ehcache-core:2.6.10") {
+    compile ("net.sf.ehcache:ehcache-core:2.6.11") {
       export = false
     }
   }

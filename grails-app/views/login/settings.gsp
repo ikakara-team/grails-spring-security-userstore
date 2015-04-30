@@ -60,9 +60,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-3 control-label">Confirm Password</label>
+                <label class="col-sm-3 control-label">Verify Password</label>
                 <div class="col-sm-5">
-                  <input type="password" class="form-control" name="password" />
+                  <input type="password" class="form-control" name="verifyPassword" />
                 </div>
               </div>
             </fieldset>
@@ -84,13 +84,13 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label">Existing Password</label>
                 <div class="col-sm-5">
-                  <input type="password" class="form-control" name="password" />
+                  <input type="password" class="form-control" name="verifyPassword" />
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">New Password</label>
                 <div class="col-sm-5">
-                  <input type="password" class="form-control" name="newPassword" />
+                  <input type="password" class="form-control" name="password" />
                 </div>
               </div>
               <div class="form-group">
