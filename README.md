@@ -1,5 +1,9 @@
 # grails-spring-security-userstore
 
+Example Application:
+--------------
+See <a href="https://github.com/ikakara-team/grails-example-orguserteam">example application</a>
+
 Description:
 --------------
 Save time integrating user registration and authentication with Spring Security Userstore Plugin -- a datastore (service)
