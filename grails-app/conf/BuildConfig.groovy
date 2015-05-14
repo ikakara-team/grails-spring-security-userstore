@@ -24,7 +24,7 @@ grails.project.dependency.resolution = {
 
   plugins {
     // needed for testing
-    build (":tomcat:8.0.21" ){ // 8.0.18 broken - https://jira.grails.org/browse/GPTOMCAT-29
+    build (":tomcat:8.0.22" ){ // 8.0.18 broken - https://jira.grails.org/browse/GPTOMCAT-29
       export = false
     }
 
