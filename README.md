@@ -31,7 +31,7 @@ Installation:
     compile ":cookie-session:2.0.18" // http://grails.org/plugin/cookie-session
 
     compile ':spring-security-core:2.0-RC5'
-    compile ':spring-security-userstore:0.8.3'
+    compile ':spring-security-userstore:0.8.4'
 ...
   }
 ```
