@@ -35,6 +35,6 @@ grails.project.dependency.resolution = {
     }
 
     // needed for userstore
-    compile(':spring-security-core:2.0-RC4')
+    compile(':spring-security-core:2.0-RC5')
   }
 }

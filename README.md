@@ -28,9 +28,9 @@ Installation:
   plugins {
 ...
     // simplifies scaling spring-security
-    compile ":cookie-session:2.0.17" // http://grails.org/plugin/cookie-session
+    compile ":cookie-session:2.0.18" // http://grails.org/plugin/cookie-session
 
-    compile ':spring-security-core:2.0-RC4'
+    compile ':spring-security-core:2.0-RC5'
     compile ':spring-security-userstore:0.8.3'
 ...
   }
@@ -178,6 +178,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.8.4 - upgrade to spring-security-core:2.0-RC5
 0.8.3 - fix settings form to work w/ bootstrapvalidator
 0.8.2 - tweak SpringSecurityUserstoreGrailsPlugin - test publish
 0.8.1 - include I18N messages; insure account-settings authenticated
