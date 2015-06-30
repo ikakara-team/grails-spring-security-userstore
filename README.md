@@ -31,7 +31,7 @@ Installation:
     compile ":cookie-session:2.0.18" // http://grails.org/plugin/cookie-session
 
     compile ':spring-security-core:2.0-RC5'
-    compile ':spring-security-userstore:0.8.4'
+    compile ':spring-security-userstore:0.8.5'
 ...
   }
 ```
@@ -169,7 +169,7 @@ class ExampleController {
 
 Copyright & License:
 --------------
-Copyright 2014-2015 Allen Arakaki.  All Rights Reserved.
+Copyright 2014-2015 the original author or authors.
 
 ```
 Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
@@ -178,6 +178,7 @@ Apache 2 License - http://www.apache.org/licenses/LICENSE-2.0
 History:
 --------------
 ```
+0.8.5 - update copyright
 0.8.4 - upgrade to spring-security-core:2.0-RC5
 0.8.3 - fix settings form to work w/ bootstrapvalidator
 0.8.2 - tweak SpringSecurityUserstoreGrailsPlugin - test publish
